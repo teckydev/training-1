@@ -2,3 +2,32 @@ Responsive (max-width)
 width: 100% → it can stretch and shrink
 
 max-width: 600px → but it won’t stretch beyond that point
+------------------------------------
+max-conten
+----------------
+button {
+  width: max-content;
+}
+Better alignment with center or flex
+
+When combined with margin: 0 auto; or justify-content: center;, the element centers nicely without extra space.
+
+Avoid full-width stretching
+
+By default, block elements (like <div> or <h1>) take 100% width.
+
+max-content prevents unnecessary empty space.
++------------------------+
+|       Hello World      |
++------------------------+
++-------------+
+| Hello World |-maxcontent
++-------------+
+--------------------
+grid-column: 1 / -1;
+-------------------------------
+1 / -1 → means:(strectch width,span)
+
+Start at grid line 1 (first vertical line on the left)
+
+End at grid line -1 (the last vertical line on the right)
