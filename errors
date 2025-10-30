@@ -1,1 +1,53 @@
 1.what is null check?
+Option 1 (Recommended): Attach employee info manually after fetching
+Modify your fetchSalaries() like this:
+fetchSalaries() {
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const userId = user.id;
+
+  this.salaryService.getSalaryForEmployee().subscribe({
+    next: (res) => {
+      // Attach employee info to each salary record
+      const employee = res.employee;
+      this.salaries = res.salaryHistory.map((record: any) => ({
+        ...record,
+        employee, // add the employee data to each record
+      }));
+
+      console.log('Employee salary records:', this.salaries);
+    },
+    error: (err) => console.error('Error fetching salary', err),
+  });
+}
+
+✅ Now each salary row has an employee object, so this works:
+{ key: 'empId', label: 'Employee ID', render: (row: any) => row.employee?.empId }
+
+
+🩷 Option 2: Render directly from res.employee (if only one employee)
+If you only want to show the same empId for all rows (like in an employee dashboard),
+you can directly display the employee info above the table instead of in each row.
+Example:
+<div class="mb-3">
+  <h3>Employee ID: {{ salaries.length ? salaries[0].employee?.empId : '' }}</h3>
+</div>
+
+But Option 1 is more flexible and clean, especially if you reuse the table component.
+
+✅ Final Working Version Summary
+fetchSalaries() {
+  this.salaryService.getSalaryForEmployee().subscribe({
+    next: (res) => {
+      const employee = res.employee;
+      this.salaries = res.salaryHistory.map((record: any) => ({
+        ...record,
+        employee,
+      }));
+      console.log('Employee salary records:', this.salaries);
+    },
+    error: (err) => console.error('Error fetching salary', err),
+  });
+}
+
+
+Would you like me to show how to display the employee’s name and department above the salary table too (like a header card)?
